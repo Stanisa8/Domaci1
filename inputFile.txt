@@ -1,1 +1,5 @@
-Stanisa 
+let
+    int x;
+in
+    x = 10;
+end

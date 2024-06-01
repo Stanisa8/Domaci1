@@ -1,7 +1,16 @@
 %{
 #include <stdio.h>
 #include "pmf0_parser.tab.h"
+
+int yycolumn = 1;
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
+    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
+    yycolumn += yyleng;
+
 %}
+
+%option noyywrap
+%option yylineno
 
 %%
 "let"       { printf("Token: T_Let\n"); return T_Let; }
@@ -34,20 +43,20 @@
 "and"       { printf("Token: T_And\n"); return T_And; }
 "or"        { printf("Token: T_Or\n"); return T_Or; }
 "not"       { printf("Token: T_Not\n"); return T_Not; }
-"true"      { printf("Token: T_Bool_Const\n"); return T_Bool_Const; }
-"false"     { printf("Token: T_Bool_Const\n"); return T_Bool_Const; }
+"true"      { printf("Token: T_Bool_Const\n"); yylval.val_bool = 1; return T_Bool_Const; }
+"false"     { printf("Token: T_Bool_Const\n"); yylval.val_bool = 0; return T_Bool_Const; }
 
 "\/\/".*$        { /* Ignore single-line comments */ }
 \/\*([^*]|(\*+[^*/]))*\*+\/       { /* Ignore multi-line comments */ }
 
-[a-zA-Z][a-zA-Z0-9_]{0,30} {printf("Identifier: %s\n", yytext); return T_Identifier;}
-[0-9]+                               { printf("Decimal num: %s\n", yytext); return T_Int_Const; }
-(0x|0X)[0-9A-Fa-f]+                  { printf("Hexadecimal num: %s\n", yytext); return T_Int_Const; }
-[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?     { printf("Double: %s\n", yytext); return T_Double_Const; }
-[0-9]+[eE][+-]?[0-9]+                { fprintf(stderr, "Error: Invalid double format: %s\n", yytext); return T_Error; }
+[a-zA-Z][a-zA-Z0-9_]{0,30} { yylval.val_string = strdup(yytext); return T_Identifier; }
+[0-9]+                    { yylval.val_int = atoi(yytext); return T_Int_Const; }
+(0x|0X)[0-9A-Fa-f]+       { yylval.val_int = strtol(yytext, NULL, 16); return T_Int_Const; }
+[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?     { yylval.val_double = atof(yytext); return T_Double_Const; }
+[0-9]+[eE][+-]?[0-9]+    { fprintf(stderr, "Error: Invalid double format: %s\n", yytext); return T_Error; }
 
-\"(\\[^\n]|[^"\n\\])*\"              { printf("String: %s\n", yytext); return T_String_Const; }         
-\"([^"\n\\]|\\[^\n])*                { fprintf(stderr, "Error: Invalid string format %d: %s\n", yylineno, yytext); return T_Error; }
+\"(\\[^\n]|[^"\n\\])*\" { yylval.val_string = strdup(yytext); return T_String_Const; }         
+\"([^"\n\\]|\\[^\n])*   { fprintf(stderr, "Error: Invalid string format %d: %s\n", yylineno, yytext); return T_Error; }
 
 "+"         { printf("Token: T_Plus\n"); return T_Plus; }
 "-"         { printf("Token: T_Minus\n"); return T_Minus; }
@@ -71,6 +80,6 @@
 "("         { printf("Token: T_Lparen\n"); return T_Lparen; }
 ")"         { printf("Token: T_Rparen\n"); return T_Rparen; }
 [ \t\n]+    { /* Ignore whitespace */ }
-.           { return yytext[0]; }
+.           {  }
 
 %%

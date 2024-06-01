@@ -162,8 +162,27 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    #define YY_LESS_LINENO(n)
-    #define YY_LINENO_REWIND_TO(ptr)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex.
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -322,6 +341,9 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -567,6 +589,14 @@ static const flex_int16_t yy_chk[333] =
       196,  196
     } ;
 
+/* Table of booleans, true if rule could match eol. */
+static const flex_int32_t yy_rule_can_match_eol[66] =
+    {   0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 1, 0, 0,     };
+
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -584,9 +614,15 @@ char *yytext;
 #line 1 "pmf0_scanner.l"
 #line 2 "pmf0_scanner.l"
 #include <stdio.h>
-#include "tokens.h"
-#line 589 "lex.yy.c"
-#line 590 "lex.yy.c"
+#include "pmf0_parser.tab.h"
+
+int yycolumn = 1;
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
+    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
+    yycolumn += yyleng;
+
+#line 625 "lex.yy.c"
+#line 626 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -803,9 +839,9 @@ YY_DECL
 		}
 
 	{
-#line 6 "pmf0_scanner.l"
+#line 15 "pmf0_scanner.l"
 
-#line 809 "lex.yy.c"
+#line 845 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -851,6 +887,16 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					
+    yylineno++;
+;
+			}
+
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -864,335 +910,335 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "pmf0_scanner.l"
+#line 16 "pmf0_scanner.l"
 { printf("Token: T_Let\n"); return T_Let; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "pmf0_scanner.l"
+#line 17 "pmf0_scanner.l"
 { printf("Token: T_In\n"); return T_In; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "pmf0_scanner.l"
+#line 18 "pmf0_scanner.l"
 { printf("Token: T_End\n"); return T_End; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 10 "pmf0_scanner.l"
+#line 19 "pmf0_scanner.l"
 { printf("Token: T_Then\n"); return T_Then; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 11 "pmf0_scanner.l"
+#line 20 "pmf0_scanner.l"
 { printf("Token: T_Fi\n"); return T_Fi; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 12 "pmf0_scanner.l"
+#line 21 "pmf0_scanner.l"
 { printf("Token: T_Do\n"); return T_Do; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 13 "pmf0_scanner.l"
+#line 22 "pmf0_scanner.l"
 { printf("Token: T_Read\n"); return T_Read; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 14 "pmf0_scanner.l"
+#line 23 "pmf0_scanner.l"
 { printf("Token: T_Write\n"); return T_Write; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 15 "pmf0_scanner.l"
+#line 24 "pmf0_scanner.l"
 { printf("Token: T_If\n"); return T_If; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 16 "pmf0_scanner.l"
+#line 25 "pmf0_scanner.l"
 { printf("Token: T_Else\n"); return T_Else; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 17 "pmf0_scanner.l"
+#line 26 "pmf0_scanner.l"
 { printf("Token: T_While\n"); return T_While; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 18 "pmf0_scanner.l"
+#line 27 "pmf0_scanner.l"
 { printf("Token: T_Return\n"); return T_Return; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 19 "pmf0_scanner.l"
+#line 28 "pmf0_scanner.l"
 { printf("Token: T_For\n"); return T_For; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 20 "pmf0_scanner.l"
+#line 29 "pmf0_scanner.l"
 { printf("Token: T_Foreach\n"); return T_Foreach; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 21 "pmf0_scanner.l"
+#line 30 "pmf0_scanner.l"
 { printf("Token: T_Switch\n"); return T_Switch; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 22 "pmf0_scanner.l"
+#line 31 "pmf0_scanner.l"
 { printf("Token: T_Case\n"); return T_Case; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 23 "pmf0_scanner.l"
+#line 32 "pmf0_scanner.l"
 { printf("Token: T_Default\n"); return T_Default; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 24 "pmf0_scanner.l"
+#line 33 "pmf0_scanner.l"
 { printf("Token: T_Break\n"); return T_Break; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 25 "pmf0_scanner.l"
+#line 34 "pmf0_scanner.l"
 { printf("Token: T_Continue\n"); return T_Continue; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 26 "pmf0_scanner.l"
+#line 35 "pmf0_scanner.l"
 { printf("Token: T_This\n"); return T_This; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 27 "pmf0_scanner.l"
+#line 36 "pmf0_scanner.l"
 { printf("Token: T_Int\n"); return T_Int; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 28 "pmf0_scanner.l"
+#line 37 "pmf0_scanner.l"
 { printf("Token: T_Double\n"); return T_Double; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 29 "pmf0_scanner.l"
+#line 38 "pmf0_scanner.l"
 { printf("Token: T_Char\n"); return T_Char; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 30 "pmf0_scanner.l"
+#line 39 "pmf0_scanner.l"
 { printf("Token: T_String\n"); return T_String; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 31 "pmf0_scanner.l"
+#line 40 "pmf0_scanner.l"
 { printf("Token: T_Bool\n"); return T_Bool; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 32 "pmf0_scanner.l"
+#line 41 "pmf0_scanner.l"
 { printf("Token: T_Void\n"); return T_Void; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 33 "pmf0_scanner.l"
+#line 42 "pmf0_scanner.l"
 { printf("Token: T_Enum\n"); return T_Enum; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 34 "pmf0_scanner.l"
+#line 43 "pmf0_scanner.l"
 { printf("Token: T_And\n"); return T_And; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 35 "pmf0_scanner.l"
+#line 44 "pmf0_scanner.l"
 { printf("Token: T_Or\n"); return T_Or; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 36 "pmf0_scanner.l"
+#line 45 "pmf0_scanner.l"
 { printf("Token: T_Not\n"); return T_Not; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 37 "pmf0_scanner.l"
-{ printf("Token: T_Bool_Const\n"); return T_Bool_Const; }
+#line 46 "pmf0_scanner.l"
+{ printf("Token: T_Bool_Const\n"); yylval.val_bool = 1; return T_Bool_Const; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 38 "pmf0_scanner.l"
-{ printf("Token: T_Bool_Const\n"); return T_Bool_Const; }
+#line 47 "pmf0_scanner.l"
+{ printf("Token: T_Bool_Const\n"); yylval.val_bool = 0; return T_Bool_Const; }
 	YY_BREAK
 case 33:
 *yy_cp = (yy_hold_char); /* undo effects of setting up yytext */
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 40 "pmf0_scanner.l"
+#line 49 "pmf0_scanner.l"
 { /* Ignore single-line comments */ }
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 41 "pmf0_scanner.l"
+#line 50 "pmf0_scanner.l"
 { /* Ignore multi-line comments */ }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 43 "pmf0_scanner.l"
-{printf("Identifier: %s\n", yytext); return T_Identifier;}
+#line 52 "pmf0_scanner.l"
+{ yylval.val_string = strdup(yytext); return T_Identifier; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 44 "pmf0_scanner.l"
-{ printf("Decimal num: %s\n", yytext); return T_Int_Const; }
+#line 53 "pmf0_scanner.l"
+{ yylval.val_int = atoi(yytext); return T_Int_Const; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 45 "pmf0_scanner.l"
-{ printf("Hexadecimal num: %s\n", yytext); return T_Int_Const; }
+#line 54 "pmf0_scanner.l"
+{ yylval.val_int = strtol(yytext, NULL, 16); return T_Int_Const; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 46 "pmf0_scanner.l"
-{ printf("Double: %s\n", yytext); return T_Double_Const; }
+#line 55 "pmf0_scanner.l"
+{ yylval.val_double = atof(yytext); return T_Double_Const; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 47 "pmf0_scanner.l"
+#line 56 "pmf0_scanner.l"
 { fprintf(stderr, "Error: Invalid double format: %s\n", yytext); return T_Error; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 49 "pmf0_scanner.l"
-{ printf("String: %s\n", yytext); return T_String_Const; }         
+#line 58 "pmf0_scanner.l"
+{ yylval.val_string = strdup(yytext); return T_String_Const; }         
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 50 "pmf0_scanner.l"
+#line 59 "pmf0_scanner.l"
 { fprintf(stderr, "Error: Invalid string format %d: %s\n", yylineno, yytext); return T_Error; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 52 "pmf0_scanner.l"
+#line 61 "pmf0_scanner.l"
 { printf("Token: T_Plus\n"); return T_Plus; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 53 "pmf0_scanner.l"
+#line 62 "pmf0_scanner.l"
 { printf("Token: T_Minus\n"); return T_Minus; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 54 "pmf0_scanner.l"
+#line 63 "pmf0_scanner.l"
 { printf("Token: T_Asterisk\n"); return T_Asterisk; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 55 "pmf0_scanner.l"
+#line 64 "pmf0_scanner.l"
 { printf("Token: T_Slash\n"); return T_Slash; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 56 "pmf0_scanner.l"
+#line 65 "pmf0_scanner.l"
 { printf("Token: T_Percent\n"); return T_Percent; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 57 "pmf0_scanner.l"
+#line 66 "pmf0_scanner.l"
 { printf("Token: T_Backslash\n"); return T_Backslash; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 58 "pmf0_scanner.l"
+#line 67 "pmf0_scanner.l"
 { printf("Token: T_Less\n"); return T_Less; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 59 "pmf0_scanner.l"
+#line 68 "pmf0_scanner.l"
 { printf("Token: T_Less_EQ\n"); return T_Less_EQ; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 60 "pmf0_scanner.l"
+#line 69 "pmf0_scanner.l"
 { printf("Token: T_Greater\n"); return T_Greater; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 61 "pmf0_scanner.l"
+#line 70 "pmf0_scanner.l"
 { printf("Token: T_Greater_EQ\n"); return T_Greater_EQ; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 62 "pmf0_scanner.l"
+#line 71 "pmf0_scanner.l"
 { printf("Token: T_Assign\n"); return T_Assign; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 63 "pmf0_scanner.l"
+#line 72 "pmf0_scanner.l"
 { printf("Token: T_Equal\n"); return T_Equal; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 64 "pmf0_scanner.l"
+#line 73 "pmf0_scanner.l"
 { printf("Token: T_Not_Equal\n"); return T_Not_Equal; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 65 "pmf0_scanner.l"
+#line 74 "pmf0_scanner.l"
 { printf("Token: T_And\n"); return T_And; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 66 "pmf0_scanner.l"
+#line 75 "pmf0_scanner.l"
 { printf("Token: T_Or\n"); return T_Or; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 67 "pmf0_scanner.l"
+#line 76 "pmf0_scanner.l"
 { printf("Token: T_Not\n"); return T_Not; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 68 "pmf0_scanner.l"
+#line 77 "pmf0_scanner.l"
 { printf("Token: T_Semicolon\n"); return T_Semicolon; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 69 "pmf0_scanner.l"
+#line 78 "pmf0_scanner.l"
 { printf("Token: T_Comma\n"); return T_Comma; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 70 "pmf0_scanner.l"
+#line 79 "pmf0_scanner.l"
 { printf("Token: T_Dot\n"); return T_Dot; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 71 "pmf0_scanner.l"
+#line 80 "pmf0_scanner.l"
 { printf("Token: T_Lparen\n"); return T_Lparen; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 72 "pmf0_scanner.l"
+#line 81 "pmf0_scanner.l"
 { printf("Token: T_Rparen\n"); return T_Rparen; }
 	YY_BREAK
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
-#line 73 "pmf0_scanner.l"
+#line 82 "pmf0_scanner.l"
 { /* Ignore whitespace */ }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 74 "pmf0_scanner.l"
-{ return yytext[0]; }
+#line 83 "pmf0_scanner.l"
+{  }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 76 "pmf0_scanner.l"
+#line 85 "pmf0_scanner.l"
 ECHO;
 	YY_BREAK
-#line 1196 "lex.yy.c"
+#line 1242 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1560,6 +1606,10 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
+    if ( c == '\n' ){
+        --yylineno;
+    }
+
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1636,6 +1686,11 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		
+    yylineno++;
+;
 
 	return c;
 }
@@ -2103,6 +2158,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -2197,6 +2255,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 76 "pmf0_scanner.l"
+#line 85 "pmf0_scanner.l"
 
 

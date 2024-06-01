@@ -81,34 +81,35 @@ extern int yydebug;
     T_Skip = 282,                  /* T_Skip  */
     T_Int = 283,                   /* T_Int  */
     T_Double = 284,                /* T_Double  */
-    T_Bool = 285,                  /* T_Bool  */
+    T_Char = 285,                  /* T_Char  */
     T_String = 286,                /* T_String  */
-    T_Void = 287,                  /* T_Void  */
-    T_Enum = 288,                  /* T_Enum  */
-    T_And = 289,                   /* T_And  */
-    T_Or = 290,                    /* T_Or  */
-    T_Not = 291,                   /* T_Not  */
-    T_Identifier = 292,            /* T_Identifier  */
-    T_Plus = 293,                  /* T_Plus  */
-    T_Minus = 294,                 /* T_Minus  */
-    T_Asterisk = 295,              /* T_Asterisk  */
-    T_Slash = 296,                 /* T_Slash  */
-    T_Percent = 297,               /* T_Percent  */
-    T_Backslash = 298,             /* T_Backslash  */
-    T_Less = 299,                  /* T_Less  */
-    T_Less_EQ = 300,               /* T_Less_EQ  */
-    T_Greater = 301,               /* T_Greater  */
-    T_Greater_EQ = 302,            /* T_Greater_EQ  */
-    T_Assign = 303,                /* T_Assign  */
-    T_Equal = 304,                 /* T_Equal  */
-    T_Not_Equal = 305,             /* T_Not_Equal  */
-    T_Semicolon = 306,             /* T_Semicolon  */
-    T_Comma = 307,                 /* T_Comma  */
-    T_Dot = 308,                   /* T_Dot  */
-    T_Lparen = 309,                /* T_Lparen  */
-    T_Rparen = 310,                /* T_Rparen  */
-    T_Error = 311,                 /* T_Error  */
-    T_Unknown = 312                /* T_Unknown  */
+    T_Bool = 287,                  /* T_Bool  */
+    T_Void = 288,                  /* T_Void  */
+    T_Enum = 289,                  /* T_Enum  */
+    T_And = 290,                   /* T_And  */
+    T_Or = 291,                    /* T_Or  */
+    T_Not = 292,                   /* T_Not  */
+    T_Identifier = 293,            /* T_Identifier  */
+    T_Plus = 294,                  /* T_Plus  */
+    T_Minus = 295,                 /* T_Minus  */
+    T_Asterisk = 296,              /* T_Asterisk  */
+    T_Slash = 297,                 /* T_Slash  */
+    T_Percent = 298,               /* T_Percent  */
+    T_Backslash = 299,             /* T_Backslash  */
+    T_Less = 300,                  /* T_Less  */
+    T_Less_EQ = 301,               /* T_Less_EQ  */
+    T_Greater = 302,               /* T_Greater  */
+    T_Greater_EQ = 303,            /* T_Greater_EQ  */
+    T_Assign = 304,                /* T_Assign  */
+    T_Equal = 305,                 /* T_Equal  */
+    T_Not_Equal = 306,             /* T_Not_Equal  */
+    T_Semicolon = 307,             /* T_Semicolon  */
+    T_Comma = 308,                 /* T_Comma  */
+    T_Dot = 309,                   /* T_Dot  */
+    T_Lparen = 310,                /* T_Lparen  */
+    T_Rparen = 311,                /* T_Rparen  */
+    T_Error = 312,                 /* T_Error  */
+    T_Unknown = 313                /* T_Unknown  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -117,14 +118,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "pmf0_parser.y"
+#line 15 "pmf0_parser.y"
 
     int val_int;
     double val_double;
     char *val_string;
     int val_bool;
 
-#line 128 "pmf0_parser.tab.h"
+#line 129 "pmf0_parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -132,9 +133,23 @@ typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 
 int yyparse (void);
 

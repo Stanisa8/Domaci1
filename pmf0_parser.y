@@ -3,13 +3,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "pmf0_parser.tab.h"
 
 extern int yylex();
-void yyerror(const char *s);
+void yyerror(const char *msg);
 
 %}
 
+%locations
 %union {
     int val_int;
     double val_double;
@@ -24,7 +26,7 @@ void yyerror(const char *s);
 
 %token T_Let T_In T_End T_Then T_Fi T_Do T_Read T_Write T_If T_Else T_While T_Return
 %token T_For T_Foreach T_Switch T_Case T_Default T_Break T_Continue T_This T_Skip
-%token T_Int T_Double T_Bool T_String T_Void T_Enum
+%token T_Int T_Double T_Char T_String T_Bool T_Void T_Enum
 %token T_And T_Or T_Not
 %token T_Identifier
 %token T_Plus T_Minus T_Asterisk T_Slash T_Percent T_Backslash
@@ -55,7 +57,7 @@ program:
   
 declarations:
     /* Empty */
-  | declarations type ident_decl
+  | declarations type ident_decl T_Semicolon
   ;
 
 ident_decl:
@@ -145,6 +147,6 @@ int main() {
     return 0; 
 }
 
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+void yyerror(const char *msg) {
+    fprintf(stderr, "The error is at position (%d, %d), please check. -> %s\n", yylloc.first_line, yylloc.first_column, msg);
 }
