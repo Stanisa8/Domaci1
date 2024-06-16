@@ -1,5 +1,27 @@
 let
-    int x;
+    int x, y, z;
+    bool b;
+    string str;
+    double d;
+    int p, q, r;
+    //BOOL true;
+    double a, l; 
+
 in
     x = 10;
+    y = x + 5;
+    z = y * 2;
+    b = true;
+    str = "Hello";
+    str = str + " World!";
+    write str;
+    if b then
+        write x;
+    else
+        write y;
+    fi;
+    while x > 0 do
+        write x;
+        x = x - 1;
+    end;
 end

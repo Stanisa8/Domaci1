@@ -49,13 +49,13 @@ int yycolumn = 1;
 "\/\/".*$        { /* Ignore single-line comments */ }
 \/\*([^*]|(\*+[^*/]))*\*+\/       { /* Ignore multi-line comments */ }
 
-[a-zA-Z][a-zA-Z0-9_]{0,30} { yylval.val_string = strdup(yytext); return T_Identifier; }
+[a-zA-Z][a-zA-Z0-9_]{0,30} { yylval.identifier = strdup(yytext); return T_Identifier; }
 [0-9]+                    { yylval.val_int = atoi(yytext); return T_Int_Const; }
 (0x|0X)[0-9A-Fa-f]+       { yylval.val_int = strtol(yytext, NULL, 16); return T_Int_Const; }
 [0-9]+\.[0-9]*([eE][+-]?[0-9]+)?     { yylval.val_double = atof(yytext); return T_Double_Const; }
 [0-9]+[eE][+-]?[0-9]+    { fprintf(stderr, "Error: Invalid double format: %s\n", yytext); return T_Error; }
 
-\"(\\[^\n]|[^"\n\\])*\" { yylval.val_string = strdup(yytext); return T_String_Const; }         
+\"(\\[^\n]|[^"\n\\])*\" { yylval.identifier = strdup(yytext); return T_String_Const; }         
 \"([^"\n\\]|\\[^\n])*   { fprintf(stderr, "Error: Invalid string format %d: %s\n", yylineno, yytext); return T_Error; }
 
 "+"         { printf("Token: T_Plus\n"); return T_Plus; }

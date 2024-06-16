@@ -57,39 +57,39 @@ extern int yydebug;
     T_Int_Const = 258,             /* T_Int_Const  */
     T_Double_Const = 259,          /* T_Double_Const  */
     T_String_Const = 260,          /* T_String_Const  */
-    T_Bool_Const = 261,            /* T_Bool_Const  */
-    T_Let = 262,                   /* T_Let  */
-    T_In = 263,                    /* T_In  */
-    T_End = 264,                   /* T_End  */
-    T_Then = 265,                  /* T_Then  */
-    T_Fi = 266,                    /* T_Fi  */
-    T_Do = 267,                    /* T_Do  */
-    T_Read = 268,                  /* T_Read  */
-    T_Write = 269,                 /* T_Write  */
-    T_If = 270,                    /* T_If  */
-    T_Else = 271,                  /* T_Else  */
-    T_While = 272,                 /* T_While  */
-    T_Return = 273,                /* T_Return  */
-    T_For = 274,                   /* T_For  */
-    T_Foreach = 275,               /* T_Foreach  */
-    T_Switch = 276,                /* T_Switch  */
-    T_Case = 277,                  /* T_Case  */
-    T_Default = 278,               /* T_Default  */
-    T_Break = 279,                 /* T_Break  */
-    T_Continue = 280,              /* T_Continue  */
-    T_This = 281,                  /* T_This  */
-    T_Skip = 282,                  /* T_Skip  */
-    T_Int = 283,                   /* T_Int  */
-    T_Double = 284,                /* T_Double  */
-    T_Char = 285,                  /* T_Char  */
-    T_String = 286,                /* T_String  */
-    T_Bool = 287,                  /* T_Bool  */
-    T_Void = 288,                  /* T_Void  */
-    T_Enum = 289,                  /* T_Enum  */
-    T_And = 290,                   /* T_And  */
-    T_Or = 291,                    /* T_Or  */
-    T_Not = 292,                   /* T_Not  */
-    T_Identifier = 293,            /* T_Identifier  */
+    T_Identifier = 261,            /* T_Identifier  */
+    T_Bool_Const = 262,            /* T_Bool_Const  */
+    T_Let = 263,                   /* T_Let  */
+    T_In = 264,                    /* T_In  */
+    T_End = 265,                   /* T_End  */
+    T_Then = 266,                  /* T_Then  */
+    T_Fi = 267,                    /* T_Fi  */
+    T_Do = 268,                    /* T_Do  */
+    T_Read = 269,                  /* T_Read  */
+    T_Write = 270,                 /* T_Write  */
+    T_If = 271,                    /* T_If  */
+    T_Else = 272,                  /* T_Else  */
+    T_While = 273,                 /* T_While  */
+    T_Return = 274,                /* T_Return  */
+    T_For = 275,                   /* T_For  */
+    T_Foreach = 276,               /* T_Foreach  */
+    T_Switch = 277,                /* T_Switch  */
+    T_Case = 278,                  /* T_Case  */
+    T_Default = 279,               /* T_Default  */
+    T_Break = 280,                 /* T_Break  */
+    T_Continue = 281,              /* T_Continue  */
+    T_This = 282,                  /* T_This  */
+    T_Skip = 283,                  /* T_Skip  */
+    T_Int = 284,                   /* T_Int  */
+    T_Double = 285,                /* T_Double  */
+    T_Char = 286,                  /* T_Char  */
+    T_String = 287,                /* T_String  */
+    T_Bool = 288,                  /* T_Bool  */
+    T_Void = 289,                  /* T_Void  */
+    T_Enum = 290,                  /* T_Enum  */
+    T_And = 291,                   /* T_And  */
+    T_Or = 292,                    /* T_Or  */
+    T_Not = 293,                   /* T_Not  */
     T_Plus = 294,                  /* T_Plus  */
     T_Minus = 295,                 /* T_Minus  */
     T_Asterisk = 296,              /* T_Asterisk  */
@@ -118,12 +118,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "pmf0_parser.y"
+#line 16 "pmf0_parser.y"
 
     int val_int;
-    double val_double;
-    char *val_string;
+    char* identifier;
     int val_bool;
+    double val_double;
 
 #line 129 "pmf0_parser.tab.h"
 
